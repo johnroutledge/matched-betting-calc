@@ -14,34 +14,76 @@
   <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold text-center mb-6">Matched Betting Calculator</h1>
     
+    <!-- Top panel -->
     <div class="flex space-x-4 mb-6">
-      <form id="calculatorForm" class="bg-gray-800 p-6 rounded-lg shadow-md  w-1/4">
+      <form id="calculatorForm" class="bg-gray-800 p-6 rounded-lg shadow-md w-1/4">
         <label for="betType" class="block text-sm font-medium mb-2">Bet Type:</label>
         <select id="betType" name="betType" class="block w-full bg-gray-700 text-white p-2 rounded mb-4">
           <option value="normal">Normal</option>
           <option value="freeBetSNR">Free Bet (SNR)</option>
         </select>
-
-        <label for="backStake" class="block text-sm font-medium mb-2">Back Stake (£):</label>
-        <input type="number" id="backStake" name="backStake" step="0.01" required 
-          class="block w-full bg-gray-700 text-white p-2 rounded mb-4">
-
-        <label for="backOdds" class="block text-sm font-medium mb-2">Back Odds:</label>
-        <input type="number" id="backOdds" name="backOdds" step="0.01" required 
-          class="block w-full bg-gray-700 text-white p-2 rounded mb-4">
-
-        <label for="layOdds" class="block text-sm font-medium mb-2">Lay Odds:</label>
-        <input type="number" id="layOdds" name="layOdds" step="0.01" required 
-          class="block w-full bg-gray-700 text-white p-2 rounded mb-4">
-
-        <label for="commission" class="block text-sm font-medium mb-2">Lay Commission %:</label>
-        <input type="number" id="commission" name="commission" step="0.01" 
-          class="block w-full bg-gray-700 text-white p-2 rounded mb-4">
-
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Calculate</button>
+      
+        <!-- Row for Back Stake and Back Odds -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label for="backStake" class="block text-sm font-medium mb-2">Back Stake (£):</label>
+            <input
+              type="number"
+              id="backStake"
+              name="backStake"
+              step="0.01"
+              required
+              class="block w-full bg-gray-700 text-white p-2 rounded"
+            >
+          </div>
+          <div class="flex-1">
+            <label for="backOdds" class="block text-sm font-medium mb-2">Back Odds:</label>
+            <input
+              type="number"
+              id="backOdds"
+              name="backOdds"
+              step="0.01"
+              required
+              class="block w-full bg-gray-700 text-white p-2 rounded"
+            >
+          </div>
+        </div>
+      
+        <!-- Row for Lay Odds and Commission -->
+        <div class="flex space-x-4 mb-4">
+          <div class="flex-1">
+            <label for="layOdds" class="block text-sm font-medium mb-2">Lay Odds:</label>
+            <input
+              type="number"
+              id="layOdds"
+              name="layOdds"
+              step="0.01"
+              required
+              class="block w-full bg-gray-700 text-white p-2 rounded"
+            >
+          </div>
+          <div class="flex-1">
+            <label for="commission" class="block text-sm font-medium mb-2">Lay Commission %:</label>
+            <input
+              type="number"
+              id="commission"
+              name="commission"
+              step="0.01"
+              class="block w-full bg-gray-700 text-white p-2 rounded"
+            >
+          </div>
+        </div>
+      
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Calculate
+        </button>
       </form>
+      
 
-      <div id="sliderPanel" class="bg-gray-800 p-6 rounded shadow-md  w-1/4">
+      <div id="sliderPanel" class="bg-gray-800 p-6 rounded shadow-md  w-1/3">
 
         <h2>Adjust Lay Stake</h2>
         <label for="layStakeSlider">Lay Stake (£): </label>
@@ -52,14 +94,30 @@
           max="20" 
           step="0.01" 
           value="0"
+          class="w-60"
         >
         <span id="layStakeValue">0.00</span>
         
         <div>
-          <p><strong>Lay Liability:</strong> £<span id="sliderLiability">0.00</span></p>
-          <p><strong>Bookmaker Bet Wins:</strong> £<span id="sliderBookmakerWin">0.00</span></p>
-          <p><strong>Exchange Lay Wins:</strong> £<span id="sliderExchangeLayWin">0.00</span></p>
+          <p><strong>Lay Liability:</strong><span class="ms-2">£</span><span id="sliderLiability">0.00</span></p>
+          <p><strong>Bookmaker Bet Wins:</strong><span class="ms-2" id="sliderBookmakerWinPoundSign">£</span><span id="sliderBookmakerWin">0.00</span></p>
+          <p><strong>Exchange Lay Wins:</strong><span class="ms-2" id="sliderExchangeLayWinPoundSign">£</span><span id="sliderExchangeLayWin">0.00</span></p>
         </div>
+        <hr class="mt-2">
+        <div class="mt-2"> To calculate the UNDERLAY, move the slider until Bookmaker Bet Wins is zero. </div>
+        <div class="mt-2"> To calculate the OVERLAY, move the slider until Exchange Lay Wins is zero.</div>
+        <div class="class mt-2">Generally speaking, UNDERLAY for qualifying bets and OVERLAY for free bets.</div>
+      </div>
+      <div id="advicePanel" class="bg-gray-800 p-6 rounded shadow-md  w-1/3">
+        <div class="mt-2">For qualifying bets where lay odds are higher than back odds, move the slider until Bookmaker Bet Wins is zero.</div>
+        <div class="mt-2">For qualifying bets where lay odds are lower than back odds, move the slider until Exchange Lay Wins is zero.</div>
+        <hr class="mt-3 mb-2">
+        
+        <div class="mt-2">For free bets where lay odds are higher than back odds, look to increase winnings at the bookmaker.</div>
+        <div class="mt-2">For free bets where lay odds are lower than back odds, look to increase winnings at the exchange.</div>
+        <div class="mt-2">For long odds, look to increase winnings at the exchange.</div>
+        <div class="mt-2">For short odds, look to increase winnings at the bookmaker.</div>
+
       </div>
     </div>
   
